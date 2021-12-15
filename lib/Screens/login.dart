@@ -1,11 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:jereer_task/Screens/home.dart';
 import 'package:jereer_task/auth/google.dart';
 import 'package:jereer_task/auth/signin.dart';
-
-import 'home.dart';
+import '../screens/signup.dart';
 
 
 class Login extends StatefulWidget {
@@ -18,10 +16,9 @@ class _LoginState extends State<Login> {
   TextEditingController email = TextEditingController();
   TextEditingController pass = TextEditingController();
 
-  String sEmail = '';
-  String password = '';
-  String logInError = '';
-
+  String sEmail='';
+  String password='';
+  String logInError='';
   @override
   void dispose() {
     // TODO: implement dispose
@@ -42,7 +39,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.indigoAccent,
       appBar: AppBar(),
       body: Center(
         child: Column(
@@ -72,7 +69,7 @@ class _LoginState extends State<Login> {
                   child: Column(
                     children: <Widget>[
                       SizedBox(
-                        height: 60,
+                        height: 50,
                       ),
                       Padding(
                         padding: EdgeInsets.all(30.0),
@@ -105,11 +102,11 @@ class _LoginState extends State<Login> {
                                             hintText: "Email",
                                             hintStyle: TextStyle(
                                                 color: Colors.grey[700])),
-                                        validator: (value) {
+                                        validator: ( value) {
                                           if (value == null || value.isEmpty) {
                                             return 'email cannot be empty';
                                           }
-                                          if (RegExp(
+                                          if (!RegExp(
                                               "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                                               .hasMatch(value)) {
                                             return 'Please enter a valid Email';
@@ -127,7 +124,7 @@ class _LoginState extends State<Login> {
                                           hintText: "Password",
                                           hintStyle: TextStyle(
                                               color: Colors.grey[700])),
-                                      validator: (value) {
+                                      validator: ( value) {
                                         if (value == null || value.isEmpty) {
                                           return 'Password cannot be empty';
                                         }
@@ -138,9 +135,7 @@ class _LoginState extends State<Login> {
                                 ],
                               ),
                             ),
-                            SizedBox(
-                              height: 30,
-                            ),
+
                             Text(logInError),
                             SizedBox(
                               height: 30,
@@ -150,7 +145,7 @@ class _LoginState extends State<Login> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   gradient: LinearGradient(colors: [
-                                    Colors.blue,
+                                    Colors.indigoAccent,
                                     Color.fromRGBO(143, 148, 251, .6),
                                   ])),
                               child: Center(
@@ -159,7 +154,7 @@ class _LoginState extends State<Login> {
                                       "Login",
                                       style: TextStyle(
                                           color: Colors.white,
-                                          fontWeight: FontWeight.bold,fontSize: 15),
+                                          fontWeight: FontWeight.bold),
                                     ),
                                     onPressed: () async {
                                       if (_formKey.currentState!.validate()) {
@@ -197,7 +192,35 @@ class _LoginState extends State<Login> {
                                 //  Text("Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                               ),
                             ),
-                            SizedBox(height: 25,),
+                            SizedBox(
+                              height: 10,
+                            ),
+
+                            //SizedBox(height: 40,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text("Don't have an account?",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.indigoAccent)),
+                                FlatButton(
+                                  child: Text('SignUp',
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.indigo)),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => SignUp()),
+                                    );
+                                  },
+                                ),
+
+
+                              ],
+                            ),
+
 
                             Container(
                               width: 300,
@@ -222,9 +245,7 @@ class _LoginState extends State<Login> {
                                   });
                                 },
                               ),
-                            )
-
-
+                            ),
                           ],
                         ),
                       )

@@ -1,7 +1,8 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jereer_task/services/secure_storage_service.dart';
+
 
 class Signin {
   static Future<String> signInWithEmailAndPassword(
@@ -32,13 +33,5 @@ class Signin {
     }
   }
 
-  static Future<void> signOut() async {
-    // try {
-    //   var signout = await FirebaseAuth.instance.signOut().then((value) {
-    //     securestorage.deleteAllSecureData();
-    //   });
-    // } on FirebaseAuthException catch (e) {
-    //   print(e.code);
-    // }
-  }
+
 }

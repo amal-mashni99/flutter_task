@@ -28,9 +28,9 @@ Future <String> signInWithGoogle() async{
 
 
  await FirebaseFirestore.instance.collection('users').doc('${user.uid}').set({
-   'Name' : user.displayName,
-   'Email': user.email,
-   'Photo' : user.photoURL,
+   'displayName' : user.displayName,
+   'email': user.email,
+   'photoURL' : user.photoURL,
   });
 
 

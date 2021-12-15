@@ -14,30 +14,68 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+
+ // late File image;
+  String imgUrl='';
+  TextEditingController img = TextEditingController();
+
   TextEditingController fName = TextEditingController();
   TextEditingController lName = TextEditingController();
   TextEditingController email = TextEditingController();
+  TextEditingController address = TextEditingController();
+  TextEditingController job = TextEditingController();
+  TextEditingController salary = TextEditingController();
+  String Img='';
+
 
 
   late User user;
-  late String img;
 
   @override
-  void initState() {
-    super.initState();
+  void initState()  {
+
 
 
     user = FirebaseAuth.instance.currentUser;
-    if (user.photoURL == null)
-      img = 'https://picsum.photos/250?image=9';
-    else
-      img = user.photoURL;
+
+String Fname ='' ;
+String Lname = '';
+String Email='';
+String Address='';
+String Job='';
+String Salary='';
+
 if(user != null) {
-  fName = TextEditingController(text: user.displayName.split(' ')[0]);
-  lName = TextEditingController(text: user.displayName.split(' ')[1]);
-  email = TextEditingController(text: user.email);
+
+  FirebaseFirestore.instance.collection('users').doc('${user.uid}').get().then((value) =>
+      setState(() {
+        fName = TextEditingController(text: value.get('displayName').toString().split(' ')[0]);
+        Img =  value.get('photoURL').toString();
+
+       lName = TextEditingController(text: value.get('displayName').toString().split(' ')[1]);
+       email = TextEditingController(text: value.get('email').toString());
+       job = TextEditingController(text: value.get('Job').toString());
+       salary = TextEditingController(text: value.get('Salary').toString());
+       address = TextEditingController(text: value.get('address').toString());
+
+
+      }),
+  // print( value.get('displayName').toString())
+  //fName = TextEditingController(text: value.get('displayName').toString())
+
+  );
+
+print(Fname + "amallll");
+
+
+
+
+
 }
+
+    super.initState();
   }
+
 
 
   @override
@@ -46,13 +84,22 @@ if(user != null) {
     fName.dispose();
     lName.dispose();
     email.dispose();
+    job.dispose();
+    salary.dispose();
+    address.dispose();
     super.dispose();
   }
+  // Future getImage ()
+  // async {
+  //   var img = await ImagePicker.pickImage(source: ImageSource.gallery);
+  //   setState(() {
+  //     image= img;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar: ,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.fromLTRB(10, 60, 10, 10),
@@ -60,25 +107,26 @@ if(user != null) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              ProfileWidget(
+            ProfileWidget(
 
-                imagePath: img,
-                isEdit: true,
-                onClicked: () async {
-                  final image = await ImagePicker()
-                      .getImage(source: ImageSource.gallery);
+            imagePath: Img,
+            isEdit: true,
+            onClicked: () async {
+              final image = await ImagePicker()
+                  .getImage(source: ImageSource.gallery);
 
-                  if (image == null) return;
+              if (image == null) return;
 
-                  final directory = await getApplicationDocumentsDirectory();
-                  final name = image.path;
-                  final imageFile = File('${directory.path}/$name');
-                  final newImage =
-                  await File(image.path).copy(imageFile.path);
+              final directory = await getApplicationDocumentsDirectory();
+              final name = image.path;
+              print ("image  "+ name);
+              final imageFile = File('${directory.path}/$name');
+              final newImage =
+              await File(image.path).copy(imageFile.path);
 
-                   //setState(() => user = user.copy(imagePath: newImage.path));
-                },
-              ),
+            //  setState(() => user = user.copy(imagePath: newImage.path));
+            },
+          ),
               //VerticalDivider(),
               const SizedBox(height: 24,),
 
@@ -123,6 +171,54 @@ if(user != null) {
               const SizedBox(height: 8),
               TextField(
                 controller: email,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                maxLines: 1,
+                // onChanged: widget.onChanged,
+              ),
+              SizedBox(height: 20,),
+              Text(
+                'Address',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: address,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                maxLines: 1,
+                // onChanged: widget.onChanged,
+              ),
+              SizedBox(height: 20,),
+              Text(
+                'Preferred Job',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: job,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                maxLines: 1,
+                // onChanged: widget.onChanged,
+              ),
+              SizedBox(height: 20,),
+              Text(
+                'Preferred Salary',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: salary,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),

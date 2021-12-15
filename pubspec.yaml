@@ -38,6 +38,9 @@ dependencies:
   observable: ^0.23.0
   image_picker: ^0.6.7+22
   path_provider: ^1.6.28
+  firebase_messaging: ^8.0.0-dev.2
+  flutter_local_notifications: ^3.0.3
+  http: ^0.12.2
 
 
 
